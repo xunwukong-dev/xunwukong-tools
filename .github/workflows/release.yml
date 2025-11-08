@@ -7,9 +7,51 @@ on:
       - beta
 
 jobs:
-  release:
-    name: Release
+  detect-changes:
+    name: Detect Changed Packages
     runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.changes.outputs.packages }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed packages
+        id: changes
+        run: |
+          # Get changed files
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_SHA=${{ github.event.pull_request.base.sha }}
+            HEAD_SHA=${{ github.sha }}
+          else
+            BASE_SHA=$(git rev-parse origin/main~1 2>/dev/null || git rev-parse HEAD~1)
+            HEAD_SHA=${{ github.sha }}
+          fi
+
+          # Get changed packages
+          CHANGED_PACKAGES=$(git diff --name-only $BASE_SHA $HEAD_SHA | grep -E '^packages/[^/]+/' | cut -d'/' -f2 | sort -u)
+
+          if [ -z "$CHANGED_PACKAGES" ]; then
+            echo "No changed packages detected"
+            echo 'packages=[]' >> $GITHUB_OUTPUT
+          else
+            # Convert to JSON array format
+            PACKAGES_JSON=$(echo "$CHANGED_PACKAGES" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+            echo "Changed packages: $CHANGED_PACKAGES"
+            echo "packages=$PACKAGES_JSON" >> $GITHUB_OUTPUT
+          fi
+
+  release:
+    name: Release Package
+    needs: detect-changes
+    runs-on: ubuntu-latest
+    if: needs.detect-changes.outputs.packages != '[]'
+    strategy:
+      matrix:
+        package: ${{ fromJson(needs.detect-changes.outputs.packages) }}
+      fail-fast: false
     permissions:
       contents: write
       issues: write
@@ -34,8 +76,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run semantic-release
+      - name: Run semantic-release for ${{ matrix.package }}
         env:
           GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm release
+          PACKAGE_NAME: ${{ matrix.package }}
+        run: pnpm release:package

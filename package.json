@@ -1,14 +1,14 @@
 {
   "name": "@xunwukong-tools",
   "version": "1.0.0",
-  "private": true,
   "description": "Xunwukong Tools Monorepo",
   "scripts": {
     "dev": "pnpm --filter './packages/*' dev",
     "build": "pnpm --filter './packages/*' build",
     "test": "pnpm --filter './packages/*' test",
     "lint": "pnpm --filter './packages/*' lint",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "release:package": "semantic-release"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",

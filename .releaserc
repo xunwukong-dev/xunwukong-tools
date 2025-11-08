@@ -12,7 +12,7 @@
     [
       "@semantic-release/changelog",
       {
-        "changelogFile": "CHANGELOG.md"
+        "changelogFile": "packages/withdraw/CHANGELOG.md"
       }
     ],
     [
@@ -33,7 +33,7 @@
       "@semantic-release/git",
       {
         "assets": [
-          "CHANGELOG.md",
+          "packages/withdraw/CHANGELOG.md",
           "packages/withdraw/package.json"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\\n\\n${nextRelease.notes}"
