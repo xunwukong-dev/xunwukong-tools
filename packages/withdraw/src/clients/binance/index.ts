@@ -10,6 +10,7 @@ import {
 
 import { buildQueryString, generateSignature } from '@/utils/signature.js';
 
+// default origin
 const DEFAULT_BASE_URL = 'https://api.binance.com';
 
 export class BinanceClient {
