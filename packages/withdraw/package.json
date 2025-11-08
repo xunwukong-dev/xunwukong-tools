@@ -14,6 +14,9 @@
     "example:advanced": "tsx examples/advanced.ts",
     "example:get-all-coins": "tsx examples/get-all-coins.ts"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "binance",
     "withdraw",
