@@ -6,7 +6,7 @@ import {
   GetAllCoinsParams,
   WithdrawParams,
   WithdrawResponse,
-} from "./types.js"
+} from "./types.js";
 
 import { buildQueryString, generateSignature } from "@/utils/signature.js";
 
