@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 import {
   BinanceConfig,
@@ -6,12 +6,12 @@ import {
   GetAllCoinsParams,
   WithdrawParams,
   WithdrawResponse,
-} from './types.js';
+} from "./types.js"
 
-import { buildQueryString, generateSignature } from '@/utils/signature.js';
+import { buildQueryString, generateSignature } from "@/utils/signature.js";
 
 // default origin
-const DEFAULT_BASE_URL = 'https://api.binance.com';
+const DEFAULT_BASE_URL = "https://api.binance.com";
 
 export class BinanceClient {
   private apiKey: string;
@@ -33,13 +33,14 @@ export class BinanceClient {
   async withdraw(params: WithdrawParams): Promise<WithdrawResponse> {
     const timestamp = Date.now();
 
-    const requestParams: Record<string, string | number | boolean | undefined> = {
-      coin: params.coin,
-      address: params.address,
-      amount: params.amount,
-      timestamp,
-      recvWindow: params.recvWindow || this.recvWindow,
-    };
+    const requestParams: Record<string, string | number | boolean | undefined> =
+      {
+        coin: params.coin,
+        address: params.address,
+        amount: params.amount,
+        timestamp,
+        recvWindow: params.recvWindow || this.recvWindow,
+      };
 
     // Add optional parameters
     if (params.withdrawOrderId) {
@@ -70,19 +71,22 @@ export class BinanceClient {
         null,
         {
           headers: {
-            'X-MBX-APIKEY': this.apiKey,
-            'Content-Type': 'application/json',
+            "X-MBX-APIKEY": this.apiKey,
+            "Content-Type": "application/json",
           },
         },
       );
       return response.data;
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response) {
-        const errorData = err.response.data as { msg?: string; message?: string } | undefined;
-        const errorMessage = errorData?.msg || errorData?.message || err.message;
+        const errorData = err.response.data as
+          | { msg?: string; message?: string }
+          | undefined;
+        const errorMessage =
+          errorData?.msg || errorData?.message || err.message;
         const statusCode = err.response.status;
         throw new Error(
-          `Binance API error: ${errorMessage}${statusCode ? ` (${statusCode})` : ''}`,
+          `Binance API error: ${errorMessage}${statusCode ? ` (${statusCode})` : ""}`,
         );
       }
       if (axios.isAxiosError(err)) {
@@ -112,19 +116,22 @@ export class BinanceClient {
         `${this.baseURL}/sapi/v1/capital/config/getall?${queryString}&signature=${signature}`,
         {
           headers: {
-            'X-MBX-APIKEY': this.apiKey,
-            'Content-Type': 'application/json',
+            "X-MBX-APIKEY": this.apiKey,
+            "Content-Type": "application/json",
           },
         },
       );
       return response.data;
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response) {
-        const errorData = err.response.data as { msg?: string; message?: string } | undefined;
-        const errorMessage = errorData?.msg || errorData?.message || err.message;
+        const errorData = err.response.data as
+          | { msg?: string; message?: string }
+          | undefined;
+        const errorMessage =
+          errorData?.msg || errorData?.message || err.message;
         const statusCode = err.response.status;
         throw new Error(
-          `Binance API error: ${errorMessage}${statusCode ? ` (${statusCode})` : ''}`,
+          `Binance API error: ${errorMessage}${statusCode ? ` (${statusCode})` : ""}`,
         );
       }
       if (axios.isAxiosError(err)) {

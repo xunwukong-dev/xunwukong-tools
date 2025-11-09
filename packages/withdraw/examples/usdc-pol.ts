@@ -1,5 +1,5 @@
-import 'dotenv/config';
-import { BinanceClient } from '../src/index.js';
+import "dotenv/config";
+import { BinanceClient } from "../src/index.js";
 
 async function usdtcPolWithdraw() {
   const client = new BinanceClient({
@@ -9,17 +9,17 @@ async function usdtcPolWithdraw() {
 
   try {
     const result = await client.withdraw({
-      coin: 'USDC',
-      network: 'MATIC',
+      coin: "USDC",
+      network: "MATIC",
       // it is a random address
-      address: '0xd16642a48f75877d2f0110adba7934da27470275',
-      amount: '0.1',
+      address: "0xd16642a48f75877d2f0110adba7934da27470275",
+      amount: "0.1",
     });
 
-    console.log('✅ success！');
-    console.log('order ID:', result.id);
+    console.log("✅ success！");
+    console.log("order ID:", result.id);
   } catch (error) {
-    console.error('❌ failed:', error.message);
+    console.error("❌ failed:", error.message);
   }
 }
 

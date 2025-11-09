@@ -1,4 +1,4 @@
-export { BinanceClient } from './clients/binance';
+export { BinanceClient } from "./clients/binance";
 export type {
   BinanceConfig,
   CoinConfig,
@@ -6,4 +6,4 @@ export type {
   NetworkConfig,
   WithdrawParams,
   WithdrawResponse,
-} from './clients/binance/types';
+} from "./clients/binance/types";

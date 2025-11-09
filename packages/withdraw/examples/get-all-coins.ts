@@ -1,9 +1,9 @@
-import 'dotenv/config';
-import { writeFileSync } from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import "dotenv/config";
+import { writeFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { BinanceClient } from '../src/index.js';
+import { BinanceClient } from "../src/index.js";
 
 // Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -13,17 +13,23 @@ async function getAllCoinsExample() {
   const client = new BinanceClient({
     apiKey: process.env.BINANCE_API_KEY!,
     secretKey: process.env.BINANCE_SECRET_KEY!,
-    baseURL: 'https://api.binance.com',
+    baseURL: "https://api.binance.com",
     recvWindow: 5000,
   });
 
   try {
-    console.log('📡 Fetching all coins configuration...\n');
+    console.log("📡 Fetching all coins configuration...\n");
     const coins = await client.getAllCoins();
     console.log(`✅ Success! Found ${coins.length} coins\n`);
-    writeFileSync(path.join(__dirname, 'coins.json'), JSON.stringify(coins, null, 2));
+    writeFileSync(
+      path.join(__dirname, "coins.json"),
+      JSON.stringify(coins, null, 2),
+    );
   } catch (error) {
-    console.error('❌ Failed:', error instanceof Error ? error.message : String(error));
+    console.error(
+      "❌ Failed:",
+      error instanceof Error ? error.message : String(error),
+    );
   }
 }
 

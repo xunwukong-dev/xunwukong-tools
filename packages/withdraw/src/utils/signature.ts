@@ -1,8 +1,14 @@
-import crypto from 'crypto';
-import qs from 'qs';
+import crypto from "crypto";
+import qs from "qs";
 
-export function generateSignature(queryString: string, secretKey: string): string {
-  return crypto.createHmac('sha256', secretKey).update(queryString).digest('hex');
+export function generateSignature(
+  queryString: string,
+  secretKey: string,
+): string {
+  return crypto
+    .createHmac("sha256", secretKey)
+    .update(queryString)
+    .digest("hex");
 }
 
 export function buildQueryString(
@@ -11,7 +17,7 @@ export function buildQueryString(
   // Filter out undefined, null, and empty string values
   const filtered = Object.fromEntries(
     Object.entries(params).filter(
-      ([_, value]) => value !== undefined && value !== null && value !== '',
+      ([_, value]) => value !== undefined && value !== null && value !== "",
     ),
   );
 
