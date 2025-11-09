@@ -8,7 +8,8 @@
     "test": "pnpm --filter './packages/*' test",
     "lint": "pnpm --filter './packages/*' lint",
     "release": "semantic-release",
-    "release:package": "semantic-release"
+    "release:package": "semantic-release",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
@@ -21,6 +22,8 @@
     "@types/node": "^20.11.0",
     "eslint": "8",
     "eslint-config-universe": "^15.0.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
     "pnpm": "^9.0.0",
     "prettier": "^3.6.2",
     "semantic-release": "^25.0.2"
@@ -29,5 +32,13 @@
     "node": ">=18.0.0",
     "pnpm": ">=9.0.0"
   },
-  "packageManager": "pnpm@9.0.0"
+  "packageManager": "pnpm@9.0.0",
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix --max-warnings=0"
+    ],
+    "*.{js,jsx,ts,tsx,json,md}": [
+      "prettier --write"
+    ]
+  }
 }
